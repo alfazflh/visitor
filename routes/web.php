@@ -5,49 +5,29 @@ use Livewire\Volt\Volt;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\TamuController;
 use App\Http\Controllers\ExportController;
+use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| PUBLIC ROUTE
-|--------------------------------------------------------------------------
-*/
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
-Route::get('/', fn() => redirect()->route('login'))->name('home');
 Route::get('/export', [ExportController::class, 'export'])->name('export');
 
-/*
-|--------------------------------------------------------------------------
-| AUTHENTICATED USER ROUTES
-|--------------------------------------------------------------------------
-*/
+Route::post('/register', [TamuController::class, 'store'])->name('tamu.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/register', [TamuController::class, 'create'])->name('tamu.create');
-    Route::post('/register', [TamuController::class, 'store'])->name('tamu.store');
     Route::post('/checkout/{id}', [TamuController::class, 'checkout'])->name('tamu.checkout');
 
-    // Settings via Livewire Volt
     Route::redirect('settings', 'settings/profile');
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-/*
-|--------------------------------------------------------------------------
-| ROLE: USER ROUTES
-|--------------------------------------------------------------------------
-*/
-
 Route::middleware(['auth', RoleMiddleware::class . ':user'])->group(function () {
     Route::view('/user/registrasi', 'user.registrasi')->name('user.registrasi');
 });
-
-/*
-|--------------------------------------------------------------------------
-| ROLE: ADMIN ROUTES
-|--------------------------------------------------------------------------
-*/
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin/dashboard', [TamuController::class, 'index'])->name('admin.dashboard');

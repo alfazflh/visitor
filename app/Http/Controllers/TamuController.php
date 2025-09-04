@@ -61,7 +61,7 @@ class TamuController extends Controller
             'name_tag'    => 'nullable|string|max:50',
             'jumlah'      => 'nullable|integer',
             'induksi'     => 'nullable|string|max:20',
-            'foto'        => 'nullable|image|max:2048'
+            'foto'        => 'nullable|image|max:5048'
         ]);
 
         // Konversi data ke format simpan

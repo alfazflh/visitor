@@ -7,11 +7,21 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+        \App\Console\Commands\AutoCheckout::class,
+    ];
+
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('tamu:autocheckout')
-            ->dailyAt('16:00')
-            ->timezone('Asia/Jakarta');
+        ->everyMinute()
+        ->timezone('Asia/Jakarta');
+
     }
 
     protected function commands(): void

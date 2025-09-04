@@ -142,7 +142,6 @@ html, body {
             <div class="form-group"><label>Nama Tamu*</label><input name="nama_tamu" type="text" required></div>
             <div class="form-group"><label>Nama Perusahaan*</label><input name="perusahaan" type="text" required></div>
             <div class="form-group"><label>Alamat Perusahaan Tamu*</label><input name="alamat" type="text" required></div>
-            <div class="form-group"><label>Unit Yang Dituju*</label><input name="unit" type="text" required></div>
             <div class="form-group"><label>Nama Pegawai Yang Dituju*</label><input name="pegawai" type="text" required></div>
             <div class="form-group">
                 <label>Pemakaian APD*</label>

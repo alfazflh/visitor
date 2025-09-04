@@ -31,7 +31,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         Auth::login($user);
 
-        $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(route(
+    auth()->user()->role === 'admin' ? 'admin.dashboard' : 'user.registrasi',
+    absolute: false
+), navigate: true);
+
     }
 }; ?>
 
@@ -45,12 +49,12 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <!-- Name -->
         <flux:input
             wire:model="name"
-            :label="__('Name')"
+            :label="__('Username')"
             type="text"
             required
             autofocus
             autocomplete="name"
-            :placeholder="__('Full name')"
+            :placeholder="__('Username')"
         />
 
         <!-- Email Address -->

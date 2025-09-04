@@ -23,7 +23,7 @@ class TamuExport implements FromCollection, WithHeadings, WithMapping
         return Tamu::whereDate('created_at', '>=', $this->start)
             ->whereDate('created_at', '<=', $this->end)
             ->get([
-                'nama_tamu', 'perusahaan', 'unit', 'pegawai', 'keperluan', 'status', 'created_at', 'jam_checkout'
+                'nama_tamu', 'perusahaan', 'pegawai', 'keperluan', 'status', 'created_at', 'jam_checkout'
             ]);
     }
 
@@ -32,7 +32,6 @@ class TamuExport implements FromCollection, WithHeadings, WithMapping
         return [
             'Nama Tamu',
             'Perusahaan',
-            'Unit',
             'Pegawai',
             'Keperluan',
             'Status',
@@ -46,7 +45,6 @@ class TamuExport implements FromCollection, WithHeadings, WithMapping
         return [
             $row->nama_tamu,
             $row->perusahaan,
-            $row->unit,
             $row->pegawai,
             $row->keperluan,
             ucfirst($row->status),

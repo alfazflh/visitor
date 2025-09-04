@@ -351,16 +351,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         <h2>Data Tamu</h2>
 
         <div class="filter-section">
-            <form method="GET" class="filter-form" id="filterForm">
-                <div>
-                    <label>Tanggal Awal Data:</label>
-                    <input type="date" name="start" value="{{ $start }}">
-                </div>
-                <div>
-                    <label>Tanggal Akhir Data:</label>
-                    <input type="date" name="end" value="{{ $end }}">
-                </div>
-            </form>
+          <form method="GET" class="filter-form" id="filterForm">
+            <div>
+                <label>Tanggal Awal Data:</label>
+                <input type="date" name="start" value="{{ $start }}">
+            </div>
+            <div>
+                <label>Tanggal Akhir Data:</label>
+                <input type="date" name="end" value="{{ $end }}">
+            </div>
+            <div>
+              <label>Cari Nama Tamu:</label>
+              <input type="text" id="searchInput" placeholder="Ketik nama tamu..." />
+            </div>
+            
+        </form>
+        
             <a class="export-btn" href="{{ route('export', ['start' => $start, 'end' => $end]) }}" target="_blank">Export to Excel</a>
         </div>
 
@@ -369,8 +375,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Tanggal Kunjungan</th>
                         <th>Nama Tamu</th>
-                        <th>Unit Yang Dituju</th>
                         <th>Nama Pegawai Tujuan</th>
                         <th>Keperluan</th>
                         <th>Status</th>
@@ -381,8 +387,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     @forelse ($dataTamu as $index => $row)
                         <tr>
                             <td>{{ $index + 1 }}</td>
+                            <td>{{ $row->created_at }}</td>
                             <td>{{ $row->nama_tamu }}</td>
-                            <td>{{ $row->unit }}</td>
                             <td>{{ $row->pegawai }}</td>
                             <td>{{ $row->keperluan }}</td>
                             <td>{{ ucfirst($row->status) }}</td>
@@ -414,8 +420,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             </div>
             <div class="status">
               <label>Status</label><br>
-              <strong id="modalStatus">check-in</strong>
+              <strong id="modalStatus">-</strong>
             </div>
+            
+          
           </div>
       
           <div class="section-title">Perusahaan & Tujuan</div>
@@ -423,10 +431,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             <div class="info-item">
               <div class="icon-wrap"><i class="fas fa-building"></i></div>
               <div class="info-text"><label>Perusahaan</label><span id="modalPerusahaan">-</span></div>
-            </div>
-            <div class="info-item">
-              <div class="icon-wrap"><i class="fas fa-sitemap"></i></div>
-              <div class="info-text"><label>Unit Tujuan</label><span id="modalUnit">-</span></div>
             </div>
             <div class="info-item">
               <div class="icon-wrap"><i class="fas fa-user-tie"></i></div>
@@ -505,13 +509,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     document.getElementById("modalNama").innerText = data.nama_tamu ?? '-';
     document.getElementById("modalNameTag").innerText = data.name_tag ?? '-';
     document.getElementById("modalPerusahaan").innerText = data.perusahaan ?? '-';
-    document.getElementById("modalUnit").innerText = data.unit ?? '-';
     document.getElementById("modalPegawai").innerText = data.pegawai ?? '-';
     document.getElementById("modalKeperluan").innerText = data.keperluan ?? '-';
     document.getElementById("modalKendaraan").innerText = data.kendaraan ?? '-';
     document.getElementById("modalJumlah").innerText = data.jumlah ?? '-';
     document.getElementById("modalInduksi").innerText = data.induksi ?? '-';
     document.getElementById("modalApd").innerText = data.apd ?? '-';
+    document.getElementById("modalStatus").innerText = data.status ?? '-';
 
     const formatter = new Intl.DateTimeFormat('id-ID', {
         dateStyle: 'medium',
@@ -547,6 +551,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     function closeModal() {
         document.getElementById("modal").style.display = "none";
     }
+
+    document.getElementById("searchInput").addEventListener("input", function () {
+    const keyword = this.value.toLowerCase();
+    const rows = document.querySelectorAll("#dataTamu tbody tr");
+
+    rows.forEach((row) => {
+        const namaTamu = row.children[2]?.textContent.toLowerCase() || "";
+        row.style.display = namaTamu.includes(keyword) ? "" : "none";
+    });
+});
 </script>
 
 </x-layouts.app>
