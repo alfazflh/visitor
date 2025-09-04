@@ -134,7 +134,7 @@ html, body {
             @csrf
 
             <div class="photo-preview">
-                <img id="preview" src="https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-13.jpg" alt="Preview Foto">
+                <img id="preview" src="https://ik.imagekit.io/pln/noimage.png" alt="Preview Foto">
                 <input type="file" id="foto" name="foto" class="file-hidden" accept="image/*" onchange="previewImage(this)" required>
                 <button type="button" class="btn" onclick="document.getElementById('foto').click()">Ambil Foto</button>
             </div>
